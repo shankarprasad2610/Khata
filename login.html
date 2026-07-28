@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Sign in to Khatabook — your smart digital account book">
+        <title>Login — Khatabook</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="login.css">
+    </head>
+    <body>
+        <div class="fullscreen-layout">
+            <!-- LEFT COLUMN: Brand Hero -->
+            <div class="hero-column">
+                <h1 class="hero-heading" id="variable-proximity-heading">
+                    <!-- Controlled by HeroLogo component -->
+                </h1>
+                <p class="hero-description">
+                    Keep every transaction organized with confidence.
+                </p>
+            </div>
+
+            <!-- RIGHT COLUMN: Glassmorphism Card -->
+            <div class="card-column">
+                <div class="login-card">
+                    <h2>Welcome Back</h2>
+                    
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="Email address" autocomplete="email">
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="Password">
+                    </div>
+                    
+                    <button id="signInBtn" class="btn-signin" onclick="login()">
+                        Sign In
+                        <span class="btn-shine"></span>
+                    </button>
+                    
+                    <button id="demoBtn" class="btn-demo" onclick="loginDemo()">
+                        Quick Demo Login
+                        <span class="btn-shine"></span>
+                    </button>
+
+                    <!-- Server booting notification spinner -->
+                    <div id="statusOverlay" class="status-overlay" style="display:none;">
+                        <div class="spinner"></div>
+                        <p id="statusMsg">Connecting to backend server...</p>
+                        <span class="warning-sub">Note: Free hosting servers go to sleep after inactivity. It might take 20-30 seconds to wake up.</span>
+                    </div>
+
+                    <div class="create-account-wrapper">
+                        <a href="signup.html" class="btn-create-account">Create Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="config.js"></script>
+        <script src="login.js"></script>
+        <!-- Reusable modular HeroLogo component -->
+        <script src="HeroLogo.js"></script>
+        <script>
+            // Initialize the HeroLogo component.
+            // Flip options.interactive to true to enable the Variable Proximity cursor effect!
+            const logoContainer = document.getElementById("variable-proximity-heading");
+            const heroLogo = new HeroLogo(logoContainer, {
+                interactive: false, // Defaults to false
+                radius: 90,         // Between 80px and 100px range
+                falloff: 'linear',  // Linear falloff
+                minWeight: 400,     // Subtle weight range (400 -> 800)
+                maxWeight: 800
+            });
+        </script>
+    </body>
+</html>

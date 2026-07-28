@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Khata — Smart Account Book</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📒</text></svg>">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <!-- ── Top Header Bar ── -->
+        <header class="app-header">
+            <div class="app-header-inner">
+                <div class="brand-group">
+                    <span class="brand-logo">📒</span>
+                    <h1 id="shopTitle">Khata</h1>
+                    <span id="syncIndicator" class="sync-indicator">☁️ Synced</span>
+                </div>
+                <div class="header-actions">
+                    <span id="welcomeUser"></span>
+                    <button onclick="toggleDarkMode()" class="icon-btn" title="Toggle Dark Mode">🌙</button>
+                    <button onclick="logout()" class="icon-btn logout-btn" title="Logout">⏻</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ── Main Layout Wrapper ── -->
+        <main class="app-container">
+
+            <!-- ── Navigation Tabs ── -->
+            <nav class="app-nav-tabs">
+                <div id="tabDashboard" class="nav-tab-item" onclick="showDashboard()">📊 Dashboard</div>
+                <div id="tabCustomer"  class="nav-tab-item active" onclick="showCustomers()">👥 Customers</div>
+                <div id="tabVendor"    class="nav-tab-item" onclick="showVendors()">🏪 Vendors</div>
+                <div id="tabSettings"  class="nav-tab-item" onclick="showSettings()">⚙️ Settings</div>
+            </nav>
+
+
+
+            <!-- ── Dashboard Section ── -->
+            <div id="dashboardSection" style="display:none;">
+                <div id="dashboard"></div>
+            </div>
+
+            <!-- ── Recent Transactions Section ── -->
+            <div id="recentSection" style="display:none;">
+                <div class="toolbar">
+                    <h2>Recent Transactions</h2>
+                </div>
+                <div id="recentTransactions"></div>
+            </div>
+
+            <!-- ── Customer Section ── -->
+            <div id="customerSection">
+                <div class="toolbar">
+                    <h2>Customers</h2>
+                    <div class="toolbar-actions">
+                        <input type="text" id="search" placeholder="🔍 Search customers..." onkeyup="displayCustomers()" class="search-bar">
+                        <button class="btn-secondary" onclick="sortByBalance()">Sort ▼</button>
+                        <button class="btn-secondary" onclick="undoTransaction()">Undo Last</button>
+                        <button class="btn-primary btn-accent" onclick="toggleAddCustomerForm()">+ Add Customer</button>
+                    </div>
+                </div>
+
+                <!-- Customer Cards Grid -->
+                <div id="customerList" class="card-grid"></div>
+            </div>
+
+            <!-- ── Vendor Section ── -->
+            <div id="vendorSection" style="display:none;">
+                <div class="toolbar">
+                    <h2>Vendors</h2>
+                    <div class="toolbar-actions">
+                        <input type="text" id="vendorSearch" placeholder="🔍 Search vendors..." onkeyup="displayVendors()" class="search-bar">
+                        <button class="btn-secondary" onclick="sortVendorsByBalance()">Sort ▼</button>
+                        <button class="btn-secondary" onclick="undoTransaction()">Undo Last</button>
+                        <button class="btn-primary btn-accent" onclick="toggleAddVendorForm()">+ Add Vendor</button>
+                    </div>
+                </div>
+
+                <!-- Vendor Cards Grid -->
+                <div id="vendorList" class="card-grid"></div>
+            </div>
+
+            <!-- ── Settings Section (Grouped SaaS Layout) ── -->
+            <div id="settingsSection" style="display:none;">
+                <div class="toolbar">
+                    <h2>Settings</h2>
+                </div>
+                
+                <div class="settings-layout">
+                    <!-- Left Sidebar Menu -->
+                    <div class="settings-menu">
+                        <div id="menu-general" class="settings-menu-item active" onclick="switchSettingsGroup('general', this)">General</div>
+                        <div id="menu-business" class="settings-menu-item" onclick="switchSettingsGroup('business', this)">Business Info</div>
+                        <div id="menu-appearance" class="settings-menu-item" onclick="switchSettingsGroup('appearance', this)">Appearance</div>
+                        <div id="menu-security" class="settings-menu-item" onclick="switchSettingsGroup('security', this)">Security</div>
+                        <div id="menu-data" class="settings-menu-item" onclick="switchSettingsGroup('data', this)">Data & Backup</div>
+                        <div id="menu-about" class="settings-menu-item" onclick="switchSettingsGroup('about', this)">About</div>
+                        <div id="menu-danger" class="settings-menu-item" onclick="switchSettingsGroup('danger', this)">Advance settings</div>
+                    </div>
+
+
+                    <!-- Right Grouped Form Content -->
+                    <div class="settings-content-wrapper">
+                        <!-- General settings -->
+                        <div id="set-general" class="settings-group-section active">
+                            <h3>General Settings</h3>
+                            <div class="settings-row">
+                                <label>Store Name</label>
+                                <input type="text" id="settingStoreName" placeholder="Khata">
+                            </div>
+                            <div class="settings-row">
+                                <label>Default Currency</label>
+                                <select id="settingCurrency">
+                                    <option value="INR">₹ INR (Indian Rupee)</option>
+                                    <option value="USD">$ USD (US Dollar)</option>
+                                    <option value="EUR">€ EUR (Euro)</option>
+                                </select>
+                            </div>
+                            <div class="settings-row">
+                                <label>Language</label>
+                                <select id="settingLang">
+                                    <option value="en">English</option>
+                                    <option value="hi">Hindi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button class="btn-primary" onclick="saveSettings()">Save Changes</button>
+                            </div>
+                        </div>
+
+                        <!-- Business settings -->
+                        <div id="set-business" class="settings-group-section">
+                            <h3>Business Profile</h3>
+                            <div class="settings-row">
+                                <label>Registered Business Name</label>
+                                <input type="text" id="bizName" placeholder="e.g. Ramesh Trading Co.">
+                            </div>
+                            <div class="settings-row">
+                                <label>Contact Phone</label>
+                                <input type="text" id="bizPhone" placeholder="Phone Number">
+                            </div>
+                            <div class="settings-row">
+                                <label>Address</label>
+                                <input type="text" id="bizAddress" placeholder="Business Address">
+                            </div>
+                            <div class="settings-row">
+                                <label>GST Number</label>
+                                <input type="text" id="bizGST" placeholder="22AAAAA0000A1Z5">
+                            </div>
+                            <div>
+                                <button class="btn-primary" onclick="saveSettings()">Save Changes</button>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Appearance settings -->
+                        <div id="set-appearance" class="settings-group-section">
+                            <h3>Appearance</h3>
+                            <div class="settings-row">
+                                <label>Color Theme</label>
+                                <select onchange="if(this.value === 'dark') document.body.classList.add('dark-mode'); else document.body.classList.remove('dark-mode')">
+                                    <option value="light">Light Mode</option>
+                                    <option value="dark">Dark Mode</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Security settings -->
+                        <div id="set-security" class="settings-group-section">
+                            <h3>Security & Authentication</h3>
+                            <div class="settings-row">
+                                <label>Change Login PIN (4 digits)</label>
+                                <input type="password" maxlength="4" placeholder="••••">
+                            </div>
+                            <div class="settings-row">
+                                <label>Confirm PIN</label>
+                                <input type="password" maxlength="4" placeholder="••••">
+                            </div>
+                            <div>
+                                <button class="btn-primary" onclick="toast('Security PIN updated (simulation)', 'info')">Update PIN</button>
+                            </div>
+                        </div>
+
+                        <!-- Data settings -->
+                        <div id="set-data" class="settings-group-section">
+                            <h3>Data & Backup Operations</h3>
+                            <p class="settings-row-help">Manually backup or restore your ledger dataset locally.</p>
+                            <div style="display:flex; gap:10px; margin-top:10px;">
+                                <button class="btn-secondary" onclick="toast('Backup file saved locally (simulation)', 'success')">Create Backup</button>
+                                <button class="btn-secondary" onclick="toast('Data restored (simulation)', 'info')">Restore Backup</button>
+                            </div>
+                        </div>
+
+                        <!-- About settings -->
+                        <div id="set-about" class="settings-group-section">
+                            <h3>About Khata</h3>
+                            <div class="settings-row">
+                                <p><b>Version:</b> 2.4.0 (Commercial Edition)</p>
+                                <p><b>License:</b> MIT Open Source</p>
+                                <p><b>Developer Info:</b> Optimized professional ledger book built for resumes.</p>
+                            </div>
+                        </div>
+
+                        <!-- Danger Zone -->
+                        <div id="set-danger" class="settings-group-section">
+                            <h3>Advance settings</h3>
+
+                            <div class="danger-box">
+                                <p>Resetting operations are permanent and cannot be reversed.</p>
+                                <div style="display:flex; flex-direction:column; gap:10px;">
+                                    <button class="btn-danger" style="text-align:left;" onclick="resetCustomers()">Delete All Customers</button>
+                                    <button class="btn-danger" style="text-align:left;" onclick="resetVendors()">Delete All Vendors</button>
+                                    <button class="btn-danger" style="text-align:left;" onclick="resetAllData()">Reset All App Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ── Expandable Add Customer Modal ── -->
+        <div id="addCustomerModalBackdrop" class="modal-backdrop-fixed" style="display:none;" onclick="toggleAddCustomerForm()"></div>
+        <div id="addCustomerForm" class="add-expand-form" style="display:none;">
+            <div class="add-expand-inner">
+                <h3>👤 New Customer Account</h3>
+                <div class="add-expand-fields">
+                    <div class="add-field-group">
+                        <label class="add-field-label">Full Name</label>
+                        <input type="text" id="name" placeholder="e.g. Ramesh Kumar">
+                    </div>
+                    <div class="add-field-group">
+                        <label class="add-field-label">Phone Number</label>
+                        <input type="text" id="phone" placeholder="e.g. 9876543210 (10-12 digits)">
+                    </div>
+                </div>
+                <div class="add-expand-actions">
+                    <button class="btn-secondary" onclick="toggleAddCustomerForm()">Cancel</button>
+                    <button class="btn-primary" onclick="addCustomer()">Save Customer</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Expandable Add Vendor Modal ── -->
+        <div id="addVendorModalBackdrop" class="modal-backdrop-fixed" style="display:none;" onclick="toggleAddVendorForm()"></div>
+        <div id="addVendorForm" class="add-expand-form" style="display:none;">
+            <div class="add-expand-inner">
+                <h3>🏪 New Vendor Account</h3>
+                <div class="add-expand-fields">
+                    <div class="add-field-group">
+                        <label class="add-field-label">Vendor Name</label>
+                        <input type="text" id="vendorName" placeholder="e.g. Sharma Distributors">
+                    </div>
+                    <div class="add-field-group">
+                        <label class="add-field-label">Phone Number</label>
+                        <input type="text" id="vendorPhone" placeholder="e.g. 9876543210 (10-12 digits)">
+                    </div>
+                </div>
+                <div class="add-expand-actions">
+                    <button class="btn-secondary" onclick="toggleAddVendorForm()">Cancel</button>
+                    <button class="btn-primary" onclick="addVendor()">Save Vendor</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Confirmation Modal ── -->
+        <div id="confirmModal" class="modal-overlay">
+            <div class="modal-box">
+                <span id="modalIcon" class="modal-icon">⚠️</span>
+                <h2 id="modalTitle">Are you sure?</h2>
+                <p id="modalMessage">This action cannot be undone.</p>
+                <div class="modal-actions">
+                    <button id="modalCancelBtn" class="btn-secondary">Cancel</button>
+                    <button id="modalConfirmBtn" class="btn-danger">Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Details Modal ── -->
+        <div id="detailsModal" class="modal-overlay">
+            <div class="modal-box details-modal-box">
+                <div class="details-header">
+                    <h2 id="detailsTitle">Transaction History</h2>
+                    <button class="details-close-btn" onclick="closeDetailsModal()">×</button>
+                </div>
+                <div id="detailsContent" class="details-content"></div>
+                <div class="modal-actions" style="margin-top:16px;">
+                    <button class="btn-secondary" onclick="closeDetailsModal()">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- config.js must be first — sets window.KHATA_BACKEND before any other script -->
+        <script src="config.js"></script>
+        <!-- jsPDF for PDF export -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="customer.js"></script>
+        <script src="vendor.js"></script>
+        <script src="transaction.js"></script>
+        <script src="dashboard.js"></script>
+        <!-- app.js MUST be before menu.js: it declares customers/vendors/lastTransaction globals -->
+        <script src="app.js"></script>
+        <script src="menu.js"></script>
+        <script src="settings.js"></script>
+    </body>
+</html>

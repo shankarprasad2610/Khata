@@ -1,0 +1,369 @@
+/* ═══════════════════════════════════════════════════════════
+   KHATABOOK — Premium Dark Split-Screen Login Style
+   ═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    background-color: #09090B;
+    background-image: 
+        /* Edge Vignette */
+        radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.7) 100%),
+        /* Subtle indigo glow behind hero */
+        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.12), transparent 45%),
+        /* SVG Noise grain overlay */
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+    color: #F8FAFC;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    opacity: 0;
+    animation: pageFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageFadeIn {
+    to { opacity: 1; }
+}
+
+/* ─── Fullscreen Split Layout ───────────────────────────── */
+.fullscreen-layout {
+    display: grid;
+    grid-template-columns: 5.5fr 4.5fr; /* 55% Left, 45% Right */
+    min-height: 100vh;
+    width: 100%;
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 0 40px;
+    align-items: center;
+    gap: 40px; /* Reduced gap to move card closer */
+    position: relative;
+    z-index: 2;
+}
+
+/* ─── LEFT HERO SECTION ─────────────────────────────────── */
+.hero-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5rem; /* Balanced negative space */
+    margin-top: -5vh;
+    background: transparent;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+@keyframes heroEntrance {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-heading {
+    font-family: 'Roboto Flex', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(7rem, 12vw, 11rem); /* Larger dominant logo font */
+    font-weight: 250; /* Very light weight */
+    letter-spacing: -0.08em;
+    line-height: 0.88;
+    color: #ffffff;
+    cursor: default;
+    user-select: none;
+    font-variation-settings: 'wght' 250, 'opsz' 36;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: khataEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+@keyframes khataEntrance {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-description {
+    max-width: 540px;
+    font-size: clamp(1.4rem, 2vw, 2rem); /* Hero tagline size */
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.82);
+    font-weight: 350; /* Medium-light weight */
+    font-variation-settings: 'wght' 350;
+    margin-top: 2.2rem; /* Increased spacing from header */
+    opacity: 0;
+    transform: translateY(15px);
+    animation: taglineEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+}
+
+@keyframes taglineEntrance {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── RIGHT SECTION: Login Card Column ──────────────────── */
+.card-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 5rem; /* Balanced spacing */
+    background: transparent;
+}
+
+.login-card {
+    background: rgba(17, 24, 39, 0.45); /* Elegant translucent secondary background */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 22px;
+    padding: 68px 50px; /* Spacious internal padding */
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.45), /* Large premium soft drop shadow */
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    transform: translateY(25px);
+    animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+@keyframes cardEntrance {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-card h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #F8FAFC;
+    margin-bottom: 36px;
+    text-align: center;
+}
+
+/* ─── Inputs ────────────────────────────────────────────── */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(9, 9, 11, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: #F8FAFC;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.input-group input::placeholder {
+    color: #52525B;
+}
+
+.input-group input:focus {
+    border-color: #4F46E5;
+    box-shadow: 0 0 12px rgba(79, 70, 229, 0.2);
+    background: rgba(9, 9, 11, 0.75);
+}
+
+/* ─── Buttons ───────────────────────────────────────────── */
+button {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.98rem;
+    font-weight: 600;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:active {
+    transform: scale(0.985);
+}
+
+/* Refined, desaturated blue-purple gradient */
+.btn-signin {
+    background: linear-gradient(135deg, #3730A3 0%, #5B21B6 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(88, 28, 135, 0.3);
+    margin-top: 32px; /* Increased separation */
+}
+
+.btn-signin:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(88, 28, 135, 0.55);
+}
+
+/* Refined, elegant emerald-teal gradient (non-neon) */
+.btn-demo {
+    background: linear-gradient(135deg, #065F46 0%, #0F766E 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(15, 118, 110, 0.2);
+    margin-top: 14px;
+}
+
+.btn-demo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(15, 118, 110, 0.35);
+}
+
+/* Shine overlay effect on hover */
+.btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.12),
+        transparent
+    );
+    transform: skewX(-25deg);
+}
+
+button:hover .btn-shine {
+    animation: shineEffect 0.8s ease-in-out;
+}
+
+@keyframes shineEffect {
+    to { left: 150%; }
+}
+
+/* Outlined Create Account Button */
+.create-account-wrapper {
+    margin-top: 32px; /* Breathing room */
+    display: flex;
+    justify-content: center;
+}
+
+.btn-create-account {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #F8FAFC;
+    text-decoration: none;
+    background: transparent;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.btn-create-account:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ─── Server Status Spinner ─────────────────────────────── */
+.status-overlay {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn 0.3s ease;
+}
+
+#statusMsg {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.warning-sub {
+    font-size: 0.7rem;
+    color: #71717A;
+    line-height: 1.4;
+    max-width: 90%;
+    margin-top: 2px;
+    text-align: center;
+}
+
+.spinner {
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #4F46E5;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Responsive Design ─────────────────────────────────── */
+@media (max-width: 1024px) {
+    .fullscreen-layout {
+        grid-template-columns: 5.5fr 4.5fr;
+        padding: 0 20px;
+    }
+    .hero-column {
+        padding-left: 2rem;
+    }
+    .card-column {
+        padding-right: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .fullscreen-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        padding: 80px 24px;
+        justify-content: center;
+        gap: 40px;
+        min-height: 100vh;
+    }
+    
+    .hero-column {
+        padding-left: 0;
+        margin-top: 0;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .hero-description {
+        margin: 1.5rem auto 0;
+    }
+    
+    .card-column {
+        padding-right: 0;
+    }
+    
+    .login-card {
+        margin: 0 auto;
+        padding: 50px 32px; /* Slightly reduced padding on mobile */
+    }
+}

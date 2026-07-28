@@ -1,0 +1,203 @@
+/* ═══════════════════════════════════════════════════════════
+   KHATABOOK — Auth Pages (Login / Signup)
+   ═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0f172a;
+    background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(37,99,235,.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(124,58,237,.14) 0%, transparent 55%),
+        radial-gradient(ellipse at 60% 80%, rgba(16,185,129,.1)  0%, transparent 50%);
+    padding: 20px;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Animated background dots */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+}
+
+/* ─── Container Card ─────────────────────────────────────── */
+.container {
+    background: rgba(255,255,255,.04);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 28px;
+    padding: 2.8rem 2.2rem 2.2rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.5),
+        0 1px 0 rgba(255,255,255,.06) inset;
+    text-align: center;
+    animation: slideUp .45s cubic-bezier(.34,1.56,.64,1);
+    position: relative;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(36px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Logo / Brand mark */
+.container::before {
+    content: '📒';
+    font-size: 2.8rem;
+    display: block;
+    margin-bottom: .6rem;
+    filter: drop-shadow(0 4px 16px rgba(37,99,235,.4));
+}
+
+/* ─── Heading ────────────────────────────────────────────── */
+.container h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff 0%, #93c5fd 50%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.3rem;
+    letter-spacing: -.03em;
+}
+
+.container > p:first-of-type {
+    color: #64748b;
+    font-size: .88rem;
+    margin-bottom: 2rem;
+}
+
+/* ─── Inputs ─────────────────────────────────────────────── */
+input {
+    display: block;
+    width: 100%;
+    padding: 13px 16px;
+    margin: 8px 0;
+    border: 2px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    font-size: .95rem;
+    font-family: inherit;
+    background: rgba(255,255,255,.07);
+    color: #f1f5f9;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+input::placeholder { color: #475569; }
+input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.2);
+    background: rgba(255,255,255,.11);
+}
+
+/* ─── Button ─────────────────────────────────────────────── */
+button {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: inherit;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    box-shadow: 0 4px 20px rgba(37,99,235,.4);
+    transition: transform .2s, box-shadow .2s, opacity .2s;
+    letter-spacing: .01em;
+}
+button:hover {
+    opacity: .92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(37,99,235,.5);
+}
+button:active { transform: scale(.98); }
+
+/* ─── Footer Link ────────────────────────────────────────── */
+.container p:last-child {
+    margin-top: 1.4rem;
+    font-size: .875rem;
+    color: #475569;
+}
+.container p:last-child a {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color .2s;
+}
+.container p:last-child a:hover { color: #93c5fd; }
+
+
+/* ─── Demo Button ────────────────────────────────────────── */
+.demo-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 4px 20px rgba(16,185,129,.35) !important;
+    margin-top: 10px !important;
+}
+.demo-btn:hover {
+    box-shadow: 0 6px 28px rgba(16,185,129,.45) !important;
+}
+
+/* ─── Server Status Spinner & Overlay ────────────────────── */
+.status-overlay {
+    margin-top: 18px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn .3s ease;
+}
+#statusMsg {
+    font-size: .88rem;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+.warning-sub {
+    font-size: .7rem;
+    color: #94a3b8;
+    line-height: 1.4;
+    max-width: 90%;
+    margin-top: 2px;
+}
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,.1);
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+    .container { padding: 2rem 1.4rem 1.8rem; }
+    .container h1 { font-size: 1.5rem; }
+}
